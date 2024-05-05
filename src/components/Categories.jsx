@@ -1,14 +1,28 @@
+import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 export default function Categories() {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+
+  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+
+  const categoriesList = categories.map((category, index) => {
+    return (
+      <li
+        key={uuidv4()}
+        onClick={(event) => handleClickCategory(index, event)}
+        className={activeIndex === index ? 'active' : ''}>
+        {category}
+      </li>
+    );
+  });
+
+  const handleClickCategory = (index) => {
+    setActiveIndex(index);
+  };
   return (
     <div className="categories">
-      <ul>
-        <li className="active">Все</li>
-        <li>Мясные</li>
-        <li>Вегетарианская</li>
-        <li>Гриль</li>
-        <li>Острые</li>
-        <li>Закрытые</li>
-      </ul>
+      <ul>{categoriesList}</ul>
     </div>
   );
 }
