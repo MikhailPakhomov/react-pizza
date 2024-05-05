@@ -1,4 +1,32 @@
-export default function Sort() {
+import React from 'react';
+import { v4 as uuid } from 'uuid';
+
+export default function Sort({ isVisiblePopup }) {
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
+  if (isVisiblePopup === false) {
+    console.log(123);
+  }
+  const sortTypes = ['популярности', 'цене', 'алфавиту'];
+  const selectedSortType = sortTypes[sortActiveIndex];
+  const sortTypesList = sortTypes.map((type, index) => {
+    return (
+      <li
+        key={uuid()}
+        className={index === sortActiveIndex ? 'active' : ''}
+        onClick={() => {
+          handleClickSortTypes(index);
+        }}>
+        {type}
+      </li>
+    );
+  });
+
+  const handleClickSortTypes = (index) => {
+    setSortActiveIndex(index);
+    setIsVisible(!isVisible);
+  };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -14,15 +42,18 @@ export default function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span
+          onClick={() => {
+            setIsVisible(!isVisible);
+          }}>
+          {selectedSortType}
+        </span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isVisible && (
+        <div className="sort__popup">
+          <ul>{sortTypesList}</ul>
+        </div>
+      )}
     </div>
   );
 }
