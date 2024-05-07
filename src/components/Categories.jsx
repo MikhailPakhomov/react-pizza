@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Categories() {
+export default function Categories({ setFilterParams }) {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
@@ -19,6 +19,7 @@ export default function Categories() {
 
   const handleClickCategory = (index) => {
     setActiveIndex(index);
+    setFilterParams(index);
   };
   return (
     <div className="categories">
