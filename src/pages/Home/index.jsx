@@ -8,9 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
   const getPizzas = async () => {
-    return fetch('https://6637b4ab288fedf693811aff.mockapi.io/items').then((response) =>
-      response.json(),
-    );
+    return fetch('https://6637b4ab288fedf693811aff.mockapi.io/items').then((response) => {
+      window.scrollTo(0, 0);
+      return response.json();
+    });
   };
   const { data, isFetching } = useQuery({ queryKey: ['items'], queryFn: getPizzas });
   if (data) {
