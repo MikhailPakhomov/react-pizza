@@ -1,30 +1,55 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
-export default function Sort({ isVisiblePopup }) {
+export default function Sort({ setSortParams }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
-  if (isVisiblePopup === false) {
-    console.log(123);
-  }
-  const sortTypes = ['популярности', 'цене', 'алфавиту'];
-  const selectedSortType = sortTypes[sortActiveIndex];
+
+  const sortTypes = [
+    {
+      name: 'популярности',
+      sortBy: 'rating',
+      order: 'ask',
+    },
+    {
+      name: 'цене (сначала дорогие)',
+      sortBy: 'price',
+      order: 'desc',
+    },
+    {
+      name: 'цене (сначала дешёвые)',
+      sortBy: 'price',
+      order: 'ask',
+    },
+    {
+      name: 'алфавиту (А-я)',
+      sortBy: 'title',
+      order: 'ask',
+    },
+    {
+      name: 'алфавиту (Я-а)',
+      sortBy: 'title',
+      order: 'desc',
+    },
+  ];
+  const selectedSortType = sortTypes[sortActiveIndex].name;
   const sortTypesList = sortTypes.map((type, index) => {
     return (
       <li
         key={uuid()}
         className={index === sortActiveIndex ? 'active' : ''}
         onClick={() => {
-          handleClickSortTypes(index);
+          handleClickSortTypes(index, type.sortBy, type.order);
         }}>
-        {type}
+        {type.name}
       </li>
     );
   });
 
-  const handleClickSortTypes = (index) => {
+  const handleClickSortTypes = (index, sortBy, order) => {
     setSortActiveIndex(index);
     setIsVisible(!isVisible);
+    setSortParams({ sortBy, order });
   };
 
   return (
