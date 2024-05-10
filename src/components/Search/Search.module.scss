@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 10px;
+  width: 360px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  .input {
+    padding: 0;
+    width: 100%;
+    font-size: 24px;
+    border: none;
+    &::placeholder {
+      font-size: 24px;
+    }
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    fill: #909090;
+    &:hover {
+      cursor: pointer;
+      fill: black;
+    }
+  }
+}
