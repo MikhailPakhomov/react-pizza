@@ -16,13 +16,13 @@ const queryParams = {
   },
 };
 
-const getPizzas = async (filterParams, sortParams) => {
-  console.log(sortParams);
+const getPizzas = async (filterParams, sortParams, searchValue) => {
   if (!filterParams) {
     const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', {
       params: {
         sortBy: sortParams.sortBy,
         order: sortParams.order,
+        search: searchValue,
       },
     });
     return data;
@@ -32,42 +32,36 @@ const getPizzas = async (filterParams, sortParams) => {
         category: filterParams,
         sortBy: sortParams.sortBy,
         order: sortParams.order,
+        search: searchValue,
       },
     });
     return data;
   }
 };
 
-export default function Home() {
+export default function Home({ searchValue, setSearchValue }) {
   const [filterParams, setFilterParams] = React.useState(0);
   const [sortParams, setSortParams] = React.useState({
     sortBy: 'rating',
-    order: 'ask',
+    order: 'desc',
   });
 
   const { data, isFetching, isSuccess, refetch } = useQuery({
     queryKey: ['items'],
     queryFn: () => {
-      return getPizzas(filterParams, sortParams);
+      return getPizzas(filterParams, sortParams, searchValue);
     },
   });
   if (data) {
-    if (filterParams === 0) {
-      var pizzaBlockList = data.map((item, index) => {
-        return <PizzaBlock key={uuidv4()} {...item} />;
-      });
-    } else {
-      var pizzaBlockList = data
-        .filter((item) => item.category === filterParams)
-        .map((item) => {
-          return <PizzaBlock key={uuidv4()} {...item} />;
-        });
-    }
+    var pizzaBlockList = data.map((item, index) => {
+      return <PizzaBlock key={uuidv4()} {...item} />;
+    });
   }
 
+  const sceletons = [...new Array(6)].map((_, index) => <Skeleton key={uuidv4()} />);
   React.useEffect(() => {
     refetch();
-  }, [filterParams, sortParams]);
+  }, [filterParams, sortParams, searchValue]);
   return (
     <>
       <div className="content__top">
@@ -75,11 +69,7 @@ export default function Home() {
         <Sort setSortParams={setSortParams} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isFetching
-          ? [...new Array(6)].map((_, index) => <Skeleton key={uuidv4()} />)
-          : pizzaBlockList}
-      </div>
+      <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
     </>
   );
 }

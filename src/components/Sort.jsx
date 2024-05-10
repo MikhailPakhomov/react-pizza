@@ -9,7 +9,7 @@ export default function Sort({ setSortParams }) {
     {
       name: 'популярности',
       sortBy: 'rating',
-      order: 'ask',
+      order: 'desc',
     },
     {
       name: 'цене (сначала дорогие)',
