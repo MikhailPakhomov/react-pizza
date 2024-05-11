@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
+import Pagination from '../../components/Pagination';
 
 const queryParams = {
   params: {
@@ -70,6 +71,7 @@ export default function Home({ searchValue, setSearchValue }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
+      <Pagination />
     </>
   );
 }
