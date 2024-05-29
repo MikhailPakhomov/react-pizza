@@ -8,14 +8,11 @@ import Cart from './pages/Cart';
 import './scss/app.scss';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment } from './redux/slices/counterSlice';
 
-export const SearchContext = React.createContext('');
 export const PageContext = React.createContext('');
 
 function App() {
-  const [searchValue, setSearchValue] = React.useState('');
-  const [page, setPage] = React.useState(1);
+
 
   return (
     <div className="wrapper">
@@ -25,7 +22,7 @@ function App() {
           <Routes>
             <Route
               path={'/'}
-              element={<Home searchValue={searchValue} setSearchValue={setSearchValue} />}
+              element={<Home  />}
             />
             <Route path={'/cart'} element={<Cart />} />
             <Route path={'*'} element={<NotFound />} />

@@ -8,7 +8,8 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
-import { PageContext, SearchContext } from '../../App';
+import { PageContext } from '../../App';
+import { useSelector } from 'react-redux';
 
 const getPizzas = async (filterParams, sortParams, searchValue, page) => {
   if (!filterParams) {
@@ -38,13 +39,16 @@ const getPizzas = async (filterParams, sortParams, searchValue, page) => {
 };
 
 export default function Home() {
-  const { searchValue } = React.useContext(SearchContext);
+  const searchValue = useSelector((state) => state.search.value);
+  const filterParams = useSelector((state) => state.filter.value);
+
+const sortParams = useSelector((state) => state.sort)
+  // const sortBy = useSelector((state) => state.sort.sortBy);
+  // const order = useSelector((state) => state.sort.order);
+
+
+
   const { page, setPage } = React.useContext(PageContext);
-  const [filterParams, setFilterParams] = React.useState(0);
-  const [sortParams, setSortParams] = React.useState({
-    sortBy: 'rating',
-    order: 'desc',
-  });
 
   const { data, isFetching, isSuccess, refetch } = useQuery({
     queryKey: ['items'],
@@ -65,8 +69,8 @@ export default function Home() {
   return (
     <>
       <div className="content__top">
-        <Categories setFilterParams={setFilterParams} />
-        <Sort setSortParams={setSortParams} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>

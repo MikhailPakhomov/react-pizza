@@ -12,6 +12,11 @@ export default function Search() {
 
   const searchValue = useSelector((state) => state.search.value);
   const dispatch = useDispatch();
+  const inputRef = React.useRef();
+  const handleClick = () => {
+    dispatch(setInputSearch(''));
+    inputRef.current.focus();
+  };
   return (
     <div className={styles.root}>
       <svg
@@ -27,6 +32,7 @@ export default function Search() {
       </svg>
 
       <input
+        ref={inputRef}
         className={styles.input}
         type="search"
         placeholder="Введите название пиццы"
@@ -36,9 +42,7 @@ export default function Search() {
       {searchValue && (
         <svg
           className={styles.clearIcon}
-          onClick={() => {
-            dispatch(setInputSearch(''));
-          }}
+          onClick={handleClick}
           height="512px"
           id="Layer_1"
           version="1.1"

@@ -1,7 +1,11 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { setFilterParams } from '../redux/slices/filterSlice';
 
-export default function Categories({ setFilterParams }) {
+export default function Categories() {
+  const dispatch = useDispatch();
+
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
@@ -19,7 +23,7 @@ export default function Categories({ setFilterParams }) {
 
   const handleClickCategory = (index) => {
     setActiveIndex(index);
-    setFilterParams(index);
+    dispatch(setFilterParams(index));
   };
   return (
     <div className="categories">

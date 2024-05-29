@@ -1,10 +1,12 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { setSortParams } from '../redux/slices/sortSlice';
 
-export default function Sort({ setSortParams }) {
+export default function Sort() {
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
-
+  const dispath = useDispatch();
   const sortTypes = [
     {
       name: 'популярности',
@@ -49,7 +51,7 @@ export default function Sort({ setSortParams }) {
   const handleClickSortTypes = (index, sortBy, order) => {
     setSortActiveIndex(index);
     setIsVisible(!isVisible);
-    setSortParams({ sortBy, order });
+    dispath(setSortParams({sortBy, order}));
   };
 
   return (
