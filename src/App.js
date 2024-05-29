@@ -7,12 +7,19 @@ import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
 import './scss/app.scss';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { decrement, increment } from './redux/slices/counterSlice';
+
+export const SearchContext = React.createContext('');
+export const PageContext = React.createContext('');
+
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
+  const [page, setPage] = React.useState(1);
 
   return (
     <div className="wrapper">
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Header />
       <div className="content">
         <div className="container">
           <Routes>

@@ -1,11 +1,17 @@
 import React from 'react';
 import styles from './Search.module.scss';
+import { useSelector, useDispatch } from 'react-redux';
+import { setInputSearch } from '../../redux/slices/searchSlice';
 
-export default function Search({ searchValue, setSearchValue }) {
-  const handleChange = (event) => {
-    setSearchValue(event.target.value);
-  };
-  console.log();
+export default function Search() {
+  // const { setPage } = React.useContext(PageContext);
+  // const handleChange = (event) => {
+  //   setSearchValue(event.target.value);
+  //   setPage(1);
+  // };
+
+  const searchValue = useSelector((state) => state.search.value);
+  const dispatch = useDispatch();
   return (
     <div className={styles.root}>
       <svg
@@ -25,12 +31,14 @@ export default function Search({ searchValue, setSearchValue }) {
         type="search"
         placeholder="Введите название пиццы"
         value={searchValue}
-        onChange={handleChange}
+        onChange={(event) => dispatch(setInputSearch(event.target.value))}
       />
       {searchValue && (
         <svg
           className={styles.clearIcon}
-          onClick={() => setSearchValue('')}
+          onClick={() => {
+            dispatch(setInputSearch(''));
+          }}
           height="512px"
           id="Layer_1"
           version="1.1"

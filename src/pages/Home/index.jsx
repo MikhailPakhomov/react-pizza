@@ -8,22 +8,17 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
+import { PageContext, SearchContext } from '../../App';
 
-const queryParams = {
-  params: {
-    category: 1,
-    sortBy: 'price',
-    order: 'ask',
-  },
-};
-
-const getPizzas = async (filterParams, sortParams, searchValue) => {
+const getPizzas = async (filterParams, sortParams, searchValue, page) => {
   if (!filterParams) {
     const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', {
       params: {
         sortBy: sortParams.sortBy,
         order: sortParams.order,
         search: searchValue,
+        limit: 4,
+        page: page,
       },
     });
     return data;
@@ -34,13 +29,17 @@ const getPizzas = async (filterParams, sortParams, searchValue) => {
         sortBy: sortParams.sortBy,
         order: sortParams.order,
         search: searchValue,
+        limit: 4,
+        page: page,
       },
     });
     return data;
   }
 };
 
-export default function Home({ searchValue, setSearchValue }) {
+export default function Home() {
+  const { searchValue } = React.useContext(SearchContext);
+  const { page, setPage } = React.useContext(PageContext);
   const [filterParams, setFilterParams] = React.useState(0);
   const [sortParams, setSortParams] = React.useState({
     sortBy: 'rating',
@@ -50,7 +49,7 @@ export default function Home({ searchValue, setSearchValue }) {
   const { data, isFetching, isSuccess, refetch } = useQuery({
     queryKey: ['items'],
     queryFn: () => {
-      return getPizzas(filterParams, sortParams, searchValue);
+      return getPizzas(filterParams, sortParams, searchValue, page);
     },
   });
   if (data) {
@@ -59,10 +58,10 @@ export default function Home({ searchValue, setSearchValue }) {
     });
   }
 
-  const sceletons = [...new Array(6)].map((_, index) => <Skeleton key={uuidv4()} />);
+  const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
   React.useEffect(() => {
     refetch();
-  }, [filterParams, sortParams, searchValue]);
+  }, [filterParams, sortParams, searchValue, page]);
   return (
     <>
       <div className="content__top">
@@ -71,7 +70,7 @@ export default function Home({ searchValue, setSearchValue }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
-      <Pagination />
+      <Pagination setPage={setPage} />
     </>
   );
 }
