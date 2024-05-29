@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Search.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setInputSearch } from '../../redux/slices/searchSlice';
+import debounce from 'lodash.debounce';
 
 export default function Search() {
   // const { setPage } = React.useContext(PageContext);
@@ -10,10 +11,27 @@ export default function Search() {
   //   setPage(1);
   // };
 
-  const searchValue = useSelector((state) => state.search.value);
+  const updateSearchValue = React.useCallback(
+    debounce((text) => {
+      dispatch(setInputSearch(text));
+    }, 500),
+    [],
+  );
+
+  const onChangeSearchInput = (e) => {
+    setValue(e.target.value);
+    updateSearchValue(e.target.value);
+  };
+
+  const [value, setValue] = React.useState('');
+
+
   const dispatch = useDispatch();
+
   const inputRef = React.useRef();
+
   const handleClick = () => {
+    setValue('');
     dispatch(setInputSearch(''));
     inputRef.current.focus();
   };
@@ -36,10 +54,12 @@ export default function Search() {
         className={styles.input}
         type="search"
         placeholder="Введите название пиццы"
-        value={searchValue}
-        onChange={(event) => dispatch(setInputSearch(event.target.value))}
+        value={value}
+        onChange={(event) => {
+          onChangeSearchInput(event);
+        }}
       />
-      {searchValue && (
+      {value && (
         <svg
           className={styles.clearIcon}
           onClick={handleClick}
