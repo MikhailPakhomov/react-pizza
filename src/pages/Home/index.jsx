@@ -11,7 +11,8 @@ import Pagination from '../../components/Pagination';
 import { PageContext } from '../../App';
 import { useSelector } from 'react-redux';
 
-const getPizzas = async (filterParams, sortParams, searchValue, page) => {
+
+const getPizzas = async (filterParams, sortParams, searchValue, currentPage) => {
   if (!filterParams) {
     const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', {
       params: {
@@ -19,7 +20,7 @@ const getPizzas = async (filterParams, sortParams, searchValue, page) => {
         order: sortParams.order,
         search: searchValue,
         limit: 4,
-        page: page,
+        page: currentPage,
       },
     });
     return data;
@@ -31,7 +32,7 @@ const getPizzas = async (filterParams, sortParams, searchValue, page) => {
         order: sortParams.order,
         search: searchValue,
         limit: 4,
-        page: page,
+        page: currentPage,
       },
     });
     return data;
@@ -41,19 +42,17 @@ const getPizzas = async (filterParams, sortParams, searchValue, page) => {
 export default function Home() {
   const searchValue = useSelector((state) => state.search.value);
   const filterParams = useSelector((state) => state.filter.value);
-
-const sortParams = useSelector((state) => state.sort)
-  // const sortBy = useSelector((state) => state.sort.sortBy);
-  // const order = useSelector((state) => state.sort.order);
+  const sortParams = useSelector((state) => state.sort);
+  const currentPage = useSelector((state) => state.pagination.currentPage);
 
 
 
-  const { page, setPage } = React.useContext(PageContext);
+
 
   const { data, isFetching, isSuccess, refetch } = useQuery({
     queryKey: ['items'],
     queryFn: () => {
-      return getPizzas(filterParams, sortParams, searchValue, page);
+      return getPizzas(filterParams, sortParams, searchValue, currentPage);
     },
   });
   if (data) {
@@ -65,7 +64,7 @@ const sortParams = useSelector((state) => state.sort)
   const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
   React.useEffect(() => {
     refetch();
-  }, [filterParams, sortParams, searchValue, page]);
+  }, [filterParams, sortParams, searchValue, currentPage]);
   return (
     <>
       <div className="content__top">
@@ -74,7 +73,7 @@ const sortParams = useSelector((state) => state.sort)
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
-      <Pagination setPage={setPage} />
+      <Pagination currentPage={currentPage}/>
     </>
   );
 }

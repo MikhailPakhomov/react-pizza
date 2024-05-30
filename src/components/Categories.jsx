@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { setFilterParams } from '../redux/slices/filterSlice';
+import { setCurrentPage } from '../redux/slices/paginationSlice';
 
 export default function Categories() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default function Categories() {
   const handleClickCategory = (index) => {
     setActiveIndex(index);
     dispatch(setFilterParams(index));
+    dispatch(setCurrentPage(1));
   };
   return (
     <div className="categories">
