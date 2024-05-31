@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { setSortParams } from '../redux/slices/sortSlice';
 
-export default function Sort() {
+export default function Sort({setSort}) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
@@ -51,7 +51,7 @@ export default function Sort() {
   const handleClickSortTypes = (index, sortBy, order) => {
     setSortActiveIndex(index);
     setIsVisible(!isVisible);
-    dispath(setSortParams({sortBy, order}));
+    setSort({sortBy, order});
   };
 
   return (
