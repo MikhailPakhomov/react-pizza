@@ -7,6 +7,7 @@ export default function Sort({ params }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
+
   const sortTypes = [
     {
       name: 'популярности',
@@ -54,6 +55,7 @@ export default function Sort({ params }) {
   const handleClickSortTypes = (index, sortBy, order) => {
     params.sortBy = sortBy;
     params.order = order;
+
     setSortActiveIndex(index);
     setIsVisible(!isVisible);
     dispath(setParams(params));

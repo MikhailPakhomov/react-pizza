@@ -14,8 +14,6 @@ if (Object.keys(initialState).length === 0) {
   };
 }
 
-console.log(initialState);
-
 export const queryParamsSlice = createSlice({
   name: 'queryParams',
   initialState: initialState,

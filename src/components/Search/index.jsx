@@ -1,19 +1,16 @@
 import React from 'react';
 import styles from './Search.module.scss';
-import { useDispatch } from 'react-redux';
-import { setInputSearch } from '../../redux/slices/searchSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
+import { setParams } from '../../redux/slices/queryParamsSlice';
 
 export default function Search() {
-  // const { setPage } = React.useContext(PageContext);
-  // const handleChange = (event) => {
-  //   setSearchValue(event.target.value);
-  //   setPage(1);
-  // };
-
+  const params = useSelector((state) => state.queryParams);
+  const newParams = { ...params };
   const updateSearchValue = React.useCallback(
     debounce((text) => {
-      dispatch(setInputSearch(text));
+      newParams.search = text;
+      dispatch(setParams(newParams));
     }, 500),
     [],
   );
@@ -25,14 +22,14 @@ export default function Search() {
 
   const [value, setValue] = React.useState('');
 
-
   const dispatch = useDispatch();
 
   const inputRef = React.useRef();
 
   const handleClick = () => {
     setValue('');
-    dispatch(setInputSearch(''));
+    newParams.search = '';
+    dispatch(setParams(newParams));
     inputRef.current.focus();
   };
   return (

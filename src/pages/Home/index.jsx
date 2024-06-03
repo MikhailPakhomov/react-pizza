@@ -26,7 +26,6 @@ const getPizzas = async (params) => {
 export default function Home() {
   const initialParams = useSelector((state) => state.queryParams);
 
-  console.log(initialParams);
   const searchValue = useSelector((state) => state.search.value);
   const [currentPage, setCurrentPage] = React.useState(initialParams.page);
   const [filter, setFilter] = React.useState(initialParams.category);
