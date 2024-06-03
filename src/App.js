@@ -9,8 +9,6 @@ import './scss/app.scss';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-export const PageContext = React.createContext('');
-
 function App() {
 
 

@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 import { setCurrentPage } from '../../redux/slices/paginationSlice';
 import { current } from '@reduxjs/toolkit';
 
-export default function Pagination({ currentPage }) {
+export default function Pagination({ currentPage, setCurrentPage }) {
   const dispath = useDispatch();
 
   const onPageChange = (event) => {
-    dispath(setCurrentPage(event.selected + 1));
+    setCurrentPage(event.selected + 1);
   };
   return (
     <ReactPaginate
