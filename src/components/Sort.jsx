@@ -1,9 +1,9 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { setSortParams } from '../redux/slices/sortSlice';
+import { setParams } from '../redux/slices/queryParamsSlice';
 
-export default function Sort({setSort}) {
+export default function Sort({ params }) {
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
@@ -34,7 +34,10 @@ export default function Sort({setSort}) {
       order: 'desc',
     },
   ];
-  const selectedSortType = sortTypes[sortActiveIndex].name;
+
+  const selectedSortType = sortTypes.find(
+    (obj) => obj.sortBy === params.sortBy && obj.order === params.order,
+  ).name;
   const sortTypesList = sortTypes.map((type, index) => {
     return (
       <li
@@ -49,9 +52,11 @@ export default function Sort({setSort}) {
   });
 
   const handleClickSortTypes = (index, sortBy, order) => {
+    params.sortBy = sortBy;
+    params.order = order;
     setSortActiveIndex(index);
     setIsVisible(!isVisible);
-    setSort({sortBy, order});
+    dispath(setParams(params));
   };
 
   return (

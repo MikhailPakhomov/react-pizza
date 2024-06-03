@@ -1,11 +1,9 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilterParams } from '../redux/slices/filterSlice';
-import { setCurrentPage } from '../redux/slices/paginationSlice';
+import { setParams } from '../redux/slices/queryParamsSlice';
 
-export default function Categories({ filter, setFilter, setCurrentPage }) {
-  const filterParams = useSelector((state) => state.filter.value);
+export default function Categories({ params }) {
   const dispatch = useDispatch();
 
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -17,17 +15,17 @@ export default function Categories({ filter, setFilter, setCurrentPage }) {
       <li
         key={uuidv4()}
         onClick={(event) => handleClickCategory(index, event)}
-        className={Number(filter) === index ? 'active' : ''}>
+        className={Number(params.category) === index ? 'active' : ''}>
         {category}
       </li>
     );
   });
 
   const handleClickCategory = (index) => {
+    params.category = index || '';
+    params.page = 1;
     setActiveIndex(index);
-    dispatch(setFilterParams(index));
-    setCurrentPage(1);
-    setFilter(index || '');
+    dispatch(setParams(params));
   };
   return (
     <div className="categories">

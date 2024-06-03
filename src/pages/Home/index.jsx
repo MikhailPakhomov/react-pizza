@@ -24,17 +24,9 @@ const getPizzas = async (params) => {
 };
 
 export default function Home() {
-  const initialParams = qs.parse(window.location.search.substring(1));
-  console.log(initialParams);
-  if (Object.keys(initialParams).length === 0) {
-    initialParams.category = '';
-    initialParams.sortBy = 'rating';
-    initialParams.order = 'desc';
-    initialParams.search = '';
-    initialParams.limit = 4;
-    initialParams.page = 1;
-  }
+  const initialParams = useSelector((state) => state.queryParams);
 
+  console.log(initialParams);
   const searchValue = useSelector((state) => state.search.value);
   const [currentPage, setCurrentPage] = React.useState(initialParams.page);
   const [filter, setFilter] = React.useState(initialParams.category);
@@ -42,18 +34,17 @@ export default function Home() {
     sortBy: initialParams.sortBy,
     order: initialParams.order,
   });
+
   const params = {
-    category: filter ?? '',
-    sortBy: sortParams.sortBy,
-    order: sortParams.order,
-    search: searchValue,
+    category: initialParams.category ?? '',
+    sortBy: initialParams.sortBy,
+    order: initialParams.order,
+    search: initialParams.search,
     limit: 4,
-    page: currentPage,
+    page: initialParams.page,
   };
 
   const [searchParams, setParams] = useSearchParams();
-
-  const navigate = useNavigate();
 
   const { data, isFetching, isSuccess, refetch } = useQuery({
     queryKey: ['items'],
@@ -72,17 +63,23 @@ export default function Home() {
   React.useEffect(() => {
     refetch();
     setParams(params);
-  }, [filter, sortParams, searchValue, currentPage]);
+  }, [
+    initialParams.category,
+    initialParams.sortBy,
+    initialParams.order,
+    initialParams.search,
+    initialParams.page,
+  ]);
 
   return (
     <>
       <div className="content__top">
-        <Categories filter={filter} setFilter={setFilter} setCurrentPage={setCurrentPage}/>
-        <Sort setSort={setSort} />
+        <Categories params={params} />
+        <Sort params={params} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Pagination params={params} />
     </>
   );
 }
