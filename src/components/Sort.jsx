@@ -2,8 +2,13 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
+import { useClickAway } from '@uidotdev/usehooks';
 
 export default function Sort({ params }) {
+  const ref = useClickAway(() => {
+    setIsVisible(false);
+  });
+
   const [isVisible, setIsVisible] = React.useState(false);
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
@@ -62,7 +67,7 @@ export default function Sort({ params }) {
   };
 
   return (
-    <div className="sort">
+    <div className="sort" ref={ref}>
       <div className="sort__label">
         <svg
           width="10"
@@ -77,7 +82,7 @@ export default function Sort({ params }) {
         </svg>
         <b>Сортировка по:</b>
         <span
-          onClick={() => {
+          onClick={(event) => {
             setIsVisible(!isVisible);
           }}>
           {selectedSortType}

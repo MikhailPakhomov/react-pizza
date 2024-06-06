@@ -1,16 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import searchReducer from './slices/searchSlice';
-import filterReducer from './slices/filterSlice';
-import sortReduser from './slices/sortSlice';
 import paginationReducer from './slices/paginationSlice';
 import queryParamsReducer from './slices/queryParamsSlice';
+import cartReducer from'./slices/cartSlice'
 
 export const store = configureStore({
   reducer: {
     queryParams: queryParamsReducer,
-    search: searchReducer,
-    filter: filterReducer,
-    sort: sortReduser,
+    cart: cartReducer,
     pagination: paginationReducer,
   },
 });

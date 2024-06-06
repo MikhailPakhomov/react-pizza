@@ -9,14 +9,9 @@ import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import qs from 'qs';
-import { useNavigate } from 'react-router';
+
 import { useSearchParams } from 'react-router-dom';
 
-import { setFilterParams } from '../../redux/slices/filterSlice';
-import { setSortParams } from '../../redux/slices/sortSlice';
-import { setCurrentPage } from '../../redux/slices/paginationSlice';
 
 const getPizzas = async (params) => {
   const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', { params });
@@ -25,14 +20,6 @@ const getPizzas = async (params) => {
 
 export default function Home() {
   const initialParams = useSelector((state) => state.queryParams);
-
-  const searchValue = useSelector((state) => state.search.value);
-  const [currentPage, setCurrentPage] = React.useState(initialParams.page);
-  const [filter, setFilter] = React.useState(initialParams.category);
-  const [sortParams, setSort] = React.useState({
-    sortBy: initialParams.sortBy,
-    order: initialParams.order,
-  });
 
   const params = {
     category: initialParams.category ?? '',
