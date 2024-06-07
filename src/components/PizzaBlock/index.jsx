@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch } from 'react-redux';
-import {addPizza} from './../../redux/slices/cartSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { addPizza } from './../../redux/slices/cartSlice';
 
 export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   const [pizzaCount, setPizzaCount] = React.useState(0);
@@ -9,7 +9,16 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   const [activeTypePizza, setActiveTypePizza] = React.useState(0);
   const typePizza = ['тонкое', 'традиционное'];
 
-const dispatch =useDispatch();
+  const cart = useSelector((state) => state.cart.pizzas);
+
+  const currentPizzaWithAttribute = cart.filter(
+    (item) =>
+      item.title === title &&
+      item.size === sizes[activeSize] &&
+      item.dough === typePizza[activeTypePizza],
+  );
+
+  const dispatch = useDispatch();
 
   const pizzaItemInCart = {
     imageUrl,
@@ -30,7 +39,7 @@ const dispatch =useDispatch();
 
   const handleAddToCart = (arr) => {
     setPizzaCount(pizzaCount + 1);
-    dispatch(addPizza(pizzaItemInCart))
+    dispatch(addPizza(pizzaItemInCart));
   };
   const sizesList = sizes.map((size, index) => {
     return (
@@ -80,7 +89,7 @@ const dispatch =useDispatch();
               />
             </svg>
             <span>Добавить</span>
-            <i>{pizzaCount}</i>
+            <i>{currentPizzaWithAttribute.length}</i>
           </button>
         </div>
       </div>
