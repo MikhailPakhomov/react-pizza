@@ -6,10 +6,12 @@ import { useSelector } from 'react-redux';
 export default function Header() {
   const pizzasInCart = useSelector((state) => state.cart.pizzas);
   const totalPrice = pizzasInCart.reduce((sum, item) => {
-    return sum + item.price;
+    return sum + item.price * item.count;
   }, 0);
 
-  const totalCount = pizzasInCart.length;
+  const totalCount = pizzasInCart.reduce((sumCount, item) => {
+    return sumCount + item.count;
+  }, 0);
 
   return (
     <div className="header">

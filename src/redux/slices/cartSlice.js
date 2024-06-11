@@ -11,13 +11,24 @@ export const cartSlice = createSlice({
     addPizza: (state, action) => {
       state.pizzas.push(action.payload);
     },
-    increment: () => {},
-    decrement: () => {},
-    remove: () => {},
-    clear: () => {},
+    increment: (state, action) => {
+      if (action.payload === -1) return;
+      state.pizzas[action.payload].count += 1;
+    },
+    decrement: (state, action) => {
+      if (action.payload === -1) return;
+      state.pizzas[action.payload].count -= 1;
+    },
+    remove: (state, action) => {
+      if (action.payload === -1) return;
+      state.pizzas.splice(action.payload, 1);
+    },
+    clear: (state, action) => {
+state.pizzas =[];
+    },
   },
 });
 
-export const { addPizza } = cartSlice.actions;
+export const { addPizza, increment, decrement, remove, clear } = cartSlice.actions;
 
 export default cartSlice.reducer;

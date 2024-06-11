@@ -1,22 +1,14 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPizza } from './../../redux/slices/cartSlice';
+import { addPizza, increment } from './../../redux/slices/cartSlice';
 
 export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
-  const [pizzaCount, setPizzaCount] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const [activeTypePizza, setActiveTypePizza] = React.useState(0);
   const typePizza = ['тонкое', 'традиционное'];
 
   const cart = useSelector((state) => state.cart.pizzas);
-
-  const currentPizzaWithAttribute = cart.filter(
-    (item) =>
-      item.title === title &&
-      item.size === sizes[activeSize] &&
-      item.dough === typePizza[activeTypePizza],
-  );
 
   const dispatch = useDispatch();
 
@@ -26,7 +18,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
     price,
     size: sizes[activeSize],
     dough: typePizza[activeTypePizza],
-    count: pizzaCount,
+    count: 0,
   };
 
   const handleClickSize = (index) => {
@@ -38,8 +30,32 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   };
 
   const handleAddToCart = (arr) => {
-    setPizzaCount(pizzaCount + 1);
-    dispatch(addPizza(pizzaItemInCart));
+    const index = cart.findIndex(
+      (item) =>
+        item.title === title &&
+        item.size === sizes[activeSize] &&
+        item.dough === typePizza[activeTypePizza],
+    );
+
+    if (index === -1) {
+      pizzaItemInCart.count += 1;
+      dispatch(addPizza(pizzaItemInCart));
+      return;
+    } else {
+      dispatch(increment(index));
+      return;
+    }
+  };
+
+  const getQtyAddedPizza = (arr) => {
+    const result = arr.find(
+      (item) =>
+        item.title === title &&
+        item.size === sizes[activeSize] &&
+        item.dough === typePizza[activeTypePizza],
+    );
+    if (!result) return 0;
+    return result.count;
   };
   const sizesList = sizes.map((size, index) => {
     return (
@@ -75,7 +91,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
           <ul>{sizesList}</ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} ₽</div>
+          <div className="pizza-block__price"> {price} ₽</div>
           <button className="button button--outline button--add" onClick={handleAddToCart}>
             <svg
               width="12"
@@ -89,7 +105,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
               />
             </svg>
             <span>Добавить</span>
-            <i>{currentPizzaWithAttribute.length}</i>
+            <i>{getQtyAddedPizza(cart)}</i>
           </button>
         </div>
       </div>
