@@ -8,19 +8,18 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useSearchParams } from 'react-router-dom';
-
-
-const getPizzas = async (params) => {
-  const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', { params });
-  return data;
-};
+import { selectPizzas, setItems } from '../../redux/slices/pizzasSlice';
+import { getPizzas } from '../../api/fetch';
+import { selectQueryParams } from '../../redux/slices/queryParamsSlice';
 
 export default function Home() {
-  const initialParams = useSelector((state) => state.queryParams);
+  const initialParams = useSelector(selectQueryParams);
+  const pizzas = useSelector(selectPizzas);
 
+  const dispatch = useDispatch();
   const params = {
     category: initialParams.category ?? '',
     sortBy: initialParams.sortBy,
@@ -32,20 +31,30 @@ export default function Home() {
 
   const [searchParams, setParams] = useSearchParams();
 
-  const { data, isFetching, isSuccess, refetch } = useQuery({
+  const { data, isFetching, isSuccess, isError, error, refetch } = useQuery({
     queryKey: ['items'],
     queryFn: () => {
-      return getPizzas(params);
+      if (!initialParams.search) {
+        return getPizzas(params);
+      } else {
+        return getPizzas({ search: params.search });
+      }
     },
   });
 
   if (data) {
-    var pizzaBlockList = data.map((item, index) => {
+    dispatch(setItems(data));
+    var pizzaBlockList = pizzas.map((item, index) => {
+      console.log(item);
       return <PizzaBlock key={uuidv4()} {...item} />;
     });
   }
+  if (isError) {
+    console.log('Ошибка при получении пицц', error);
+  }
 
   const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
+
   React.useEffect(() => {
     refetch();
     setParams(params);
@@ -64,7 +73,15 @@ export default function Home() {
         <Sort params={params} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
+      {isError ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка</h2>
+          <p>Не удалось загрузить список пицц. Попробуйте позже</p>
+        </div>
+      ) : (
+        <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
+      )}
+
       <Pagination params={params} />
     </>
   );

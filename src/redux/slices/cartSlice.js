@@ -29,6 +29,8 @@ state.pizzas =[];
   },
 });
 
+export const selectCart = (state) => state.cart.pizzas
+
 export const { addPizza, increment, decrement, remove, clear } = cartSlice.actions;
 
 export default cartSlice.reducer;

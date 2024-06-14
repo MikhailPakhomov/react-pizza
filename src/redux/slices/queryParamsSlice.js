@@ -29,6 +29,7 @@ export const queryParamsSlice = createSlice({
   },
 });
 
+export const selectQueryParams = (state) => state.queryParams
 export const { setParams } = queryParamsSlice.actions;
 
 export default queryParamsSlice.reducer;

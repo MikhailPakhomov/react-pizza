@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './Search.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { setParams } from '../../redux/slices/queryParamsSlice';
+import { selectQueryParams, setParams } from '../../redux/slices/queryParamsSlice';
 
 export default function Search() {
-  const params = useSelector((state) => state.queryParams);
+  const params = useSelector(selectQueryParams);
   const newParams = { ...params };
   const updateSearchValue = React.useCallback(
     debounce((text) => {

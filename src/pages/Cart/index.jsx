@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment, remove, clear } from '../../redux/slices/cartSlice';
+import { decrement, increment, remove, clear, selectCart } from '../../redux/slices/cartSlice';
 
 export default function Cart() {
-  const cart = useSelector((state) => state.cart.pizzas);
+  const cart = useSelector(selectCart);
   const dispatch = useDispatch();
   const totalPrice = cart.reduce((sum, item) => {
     return sum + item.price * item.count;
@@ -185,42 +185,51 @@ export default function Cart() {
             <span>Очистить корзину</span>
           </div>
         </div>
-        <div className="content__items">{pizzasList}</div>
-        <div className="cart__bottom">
-          <div className="cart__bottom-details">
-            <span>
-              {' '}
-              Всего пицц: <b>{`${totalCount} шт.`}</b>{' '}
-            </span>
-            <span>
-              {' '}
-              Сумма заказа: <b>{`${totalPrice} руб.`}</b>{' '}
-            </span>
-          </div>
-          <div className="cart__bottom-buttons">
-            <Link to="/" className="button button--outline button--add go-back-btn">
-              <svg
-                width="8"
-                height="14"
-                viewBox="0 0 8 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 13L1 6.93015L6.86175 1"
-                  stroke="#D3D3D3"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+        {cart.length === 0 ? (
+          <>
+            <h2 className="cart__empty-title">Пусто</h2>
+            <p className="cart__empty-text">Вы еще не добавили в корзину ни одной пиццы</p>
+          </>
+        ) : (
+          <>
+            <div className="content__items">{pizzasList}</div>
+            <div className="cart__bottom">
+              <div className="cart__bottom-details">
+                <span>
+                  {' '}
+                  Всего пицц: <b>{`${totalCount} шт.`}</b>{' '}
+                </span>
+                <span>
+                  {' '}
+                  Сумма заказа: <b>{`${totalPrice} руб.`}</b>{' '}
+                </span>
+              </div>
+              <div className="cart__bottom-buttons">
+                <Link to="/" className="button button--outline button--add go-back-btn">
+                  <svg
+                    width="8"
+                    height="14"
+                    viewBox="0 0 8 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M7 13L1 6.93015L6.86175 1"
+                      stroke="#D3D3D3"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
 
-              <span>Вернуться назад</span>
-            </Link>
-            <div className="button pay-btn">
-              <span>Оплатить сейчас</span>
+                  <span>Вернуться назад</span>
+                </Link>
+                <div className="button pay-btn">
+                  <span>Оплатить сейчас</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

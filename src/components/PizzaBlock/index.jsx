@@ -1,14 +1,14 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPizza, increment } from './../../redux/slices/cartSlice';
+import { addPizza, increment, selectCart } from './../../redux/slices/cartSlice';
 
 export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   const [activeSize, setActiveSize] = React.useState(0);
   const [activeTypePizza, setActiveTypePizza] = React.useState(0);
   const typePizza = ['тонкое', 'традиционное'];
 
-  const cart = useSelector((state) => state.cart.pizzas);
+  const cart = useSelector(selectCart)
 
   const dispatch = useDispatch();
 
