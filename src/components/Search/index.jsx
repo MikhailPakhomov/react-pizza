@@ -26,7 +26,7 @@ export default function Search() {
 
   const inputRef = React.useRef();
 
-  const handleClick = () => {
+  const handleClickClear = () => {
     setValue('');
     newParams.search = '';
     dispatch(setParams(newParams));
@@ -59,7 +59,7 @@ export default function Search() {
       {value && (
         <svg
           className={styles.clearIcon}
-          onClick={handleClick}
+          onClick={handleClickClear}
           height="512px"
           id="Layer_1"
           version="1.1"

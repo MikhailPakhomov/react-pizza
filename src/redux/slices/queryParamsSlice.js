@@ -19,7 +19,6 @@ export const queryParamsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setParams: (state, action) => {
-      console.log(action.payload);
       state.category = action.payload.category;
       state.sortBy = action.payload.sortBy;
       state.order = action.payload.order;

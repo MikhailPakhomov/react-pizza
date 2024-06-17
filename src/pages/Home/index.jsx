@@ -3,23 +3,20 @@ import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Skeleton from '../../components/PizzaBlock/Skeleton';
 import Sort from '../../components/Sort';
-import axios from 'axios';
 
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useSearchParams } from 'react-router-dom';
-import { selectPizzas, setItems } from '../../redux/slices/pizzasSlice';
+import { Link, useSearchParams } from 'react-router-dom';
+
 import { getPizzas } from '../../api/fetch';
 import { selectQueryParams } from '../../redux/slices/queryParamsSlice';
 
 export default function Home() {
   const initialParams = useSelector(selectQueryParams);
-  const pizzas = useSelector(selectPizzas);
 
-  const dispatch = useDispatch();
   const params = {
     category: initialParams.category ?? '',
     sortBy: initialParams.sortBy,
@@ -43,17 +40,22 @@ export default function Home() {
   });
 
   if (data) {
-    dispatch(setItems(data));
-    var pizzaBlockList = pizzas.map((item, index) => {
-      console.log(item);
-      return <PizzaBlock key={uuidv4()} {...item} />;
+    console.log(data);
+    var pizzaBlockList = data?.map((item, index) => {
+      return (
+        <Link to={`/pizza/${item.id}`}>
+          <PizzaBlock key={uuidv4()} {...item} />
+        </Link>
+      );
     });
   }
+
   if (isError) {
     console.log('Ошибка при получении пицц', error);
   }
 
   const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
+
 
   React.useEffect(() => {
     refetch();
