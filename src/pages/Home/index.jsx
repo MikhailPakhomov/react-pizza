@@ -40,13 +40,8 @@ export default function Home() {
   });
 
   if (data) {
-    console.log(data);
     var pizzaBlockList = data?.map((item, index) => {
-      return (
-        <Link to={`/pizza/${item.id}`}>
-          <PizzaBlock key={uuidv4()} {...item} />
-        </Link>
-      );
+      return <PizzaBlock key={uuidv4()} {...item} />;
     });
   }
 
@@ -55,7 +50,6 @@ export default function Home() {
   }
 
   const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
-
 
   React.useEffect(() => {
     refetch();

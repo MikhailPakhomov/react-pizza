@@ -1,11 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logoSvg from './../assets/img/pizza-logo.svg';
 import Search from './Search';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
+import { setParams } from '../redux/slices/queryParamsSlice';
 
 export default function Header() {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
 
   const pizzasInCart = useSelector(selectCart);
   const totalPrice = pizzasInCart.reduce((sum, item) => {
@@ -16,11 +18,14 @@ export default function Header() {
     return sumCount + item.count;
   }, 0);
 
+  const handleClickOnLogo = () => {
+    dispatch(setParams(''));
+  };
   return (
     <div className="header">
       <div className="container">
         <Link to={'/'}>
-          <div className="header__logo">
+          <div className="header__logo" onClick={handleClickOnLogo}>
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
@@ -29,9 +34,9 @@ export default function Header() {
           </div>
         </Link>
 
-        <Search />
+        {pathname !== '/cart' && <Search />}
         <div className="header__cart">
-          {pathname !== '/cart' && (
+          {pathname !== '/cart' && pizzasInCart.length!== 0 &&(
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice}</span>
               <div className="button__delimiter"></div>

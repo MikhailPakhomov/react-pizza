@@ -5,6 +5,7 @@ import { setParams } from '../redux/slices/queryParamsSlice';
 import { useClickAway } from '@uidotdev/usehooks';
 
 export default function Sort({ params }) {
+
   const ref = useClickAway(() => {
     setIsVisible(false);
   });

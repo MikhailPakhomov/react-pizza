@@ -12,24 +12,24 @@ export const cartSlice = createSlice({
       state.pizzas.push(action.payload);
     },
     increment: (state, action) => {
-      if (action.payload === -1) return;
       state.pizzas[action.payload].count += 1;
     },
     decrement: (state, action) => {
-      if (action.payload === -1) return;
       state.pizzas[action.payload].count -= 1;
+      if (state.pizzas[action.payload].count === 0) {
+        state.pizzas.splice(action.payload, 1);
+      }
     },
     remove: (state, action) => {
-      if (action.payload === -1) return;
       state.pizzas.splice(action.payload, 1);
     },
     clear: (state, action) => {
-state.pizzas =[];
+      state.pizzas = [];
     },
   },
 });
 
-export const selectCart = (state) => state.cart.pizzas
+export const selectCart = (state) => state.cart.pizzas;
 
 export const { addPizza, increment, decrement, remove, clear } = cartSlice.actions;
 

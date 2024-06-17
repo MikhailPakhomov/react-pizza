@@ -19,16 +19,24 @@ export const queryParamsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setParams: (state, action) => {
-      state.category = action.payload.category;
-      state.sortBy = action.payload.sortBy;
-      state.order = action.payload.order;
-      state.search = action.payload.search;
-      state.page = action.payload.page;
+      if (action.payload === '') {
+        state.category = initialState.category;
+        state.sortBy = initialState.sortBy;
+        state.order = initialState.order;
+        state.search = initialState.search;
+        state.page = 1;
+      } else {
+        state.category = action.payload.category;
+        state.sortBy = action.payload.sortBy;
+        state.order = action.payload.order;
+        state.search = action.payload.search;
+        state.page = action.payload.page;
+      }
     },
   },
 });
 
-export const selectQueryParams = (state) => state.queryParams
+export const selectQueryParams = (state) => state.queryParams;
 export const { setParams } = queryParamsSlice.actions;
 
 export default queryParamsSlice.reducer;
