@@ -4,12 +4,14 @@ import Search from './Search';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
 import { setParams } from '../redux/slices/queryParamsSlice';
+import { setSearchValue } from '../redux/slices/searchValueSlice';
 
 export default function Header() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   const pizzasInCart = useSelector(selectCart);
+
   const totalPrice = pizzasInCart.reduce((sum, item) => {
     return sum + item.price * item.count;
   }, 0);
@@ -20,6 +22,7 @@ export default function Header() {
 
   const handleClickOnLogo = () => {
     dispatch(setParams(''));
+    dispatch(setSearchValue(''));
   };
   return (
     <div className="header">
@@ -36,7 +39,7 @@ export default function Header() {
 
         {pathname !== '/cart' && <Search />}
         <div className="header__cart">
-          {pathname !== '/cart' && pizzasInCart.length!== 0 &&(
+          {pathname !== '/cart' && pizzasInCart.length !== 0 && (
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice}</span>
               <div className="button__delimiter"></div>

@@ -3,9 +3,11 @@ import styles from './Search.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { selectQueryParams, setParams } from '../../redux/slices/queryParamsSlice';
+import { selectSearchValue, setSearchValue } from '../../redux/slices/searchValueSlice';
 
 export default function Search() {
   const params = useSelector(selectQueryParams);
+  const value = useSelector(selectSearchValue);
   const newParams = { ...params };
   const updateSearchValue = React.useCallback(
     debounce((text) => {
@@ -16,18 +18,16 @@ export default function Search() {
   );
 
   const onChangeSearchInput = (e) => {
-    setValue(e.target.value);
+    dispatch(setSearchValue(e.target.value));
     updateSearchValue(e.target.value);
   };
-
-  const [value, setValue] = React.useState('');
 
   const dispatch = useDispatch();
 
   const inputRef = React.useRef();
 
   const handleClickClear = () => {
-    setValue('');
+    dispatch(setSearchValue(''));
     newParams.search = '';
     dispatch(setParams(newParams));
     inputRef.current.focus();
