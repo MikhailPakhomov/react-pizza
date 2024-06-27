@@ -4,9 +4,6 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
@@ -18,7 +15,7 @@ const queryClient = new QueryClient({
     queries: { refetchOnWindowFocus: false },
   },
 });
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement) ;
 
 root.render(
   <Provider store={store}>
