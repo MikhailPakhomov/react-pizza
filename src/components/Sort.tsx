@@ -6,7 +6,7 @@ import { useClickAway } from '@uidotdev/usehooks';
 
 export default function Sort({ params }) {
 
-  const ref = useClickAway(() => {
+  const ref = useClickAway<HTMLDivElement>(() => {
     setIsVisible(false);
   });
 
@@ -14,7 +14,13 @@ export default function Sort({ params }) {
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
 
-  const sortTypes = [
+type SortItem = {
+ name: string;
+sortBy: string;
+order: string;
+}
+
+  const sortTypes:SortItem[]= [
     {
       name: 'популярности',
       sortBy: 'rating',
@@ -42,9 +48,9 @@ export default function Sort({ params }) {
     },
   ];
 
-  const selectedSortType = sortTypes.find(
-    (obj) => obj.sortBy === params.sortBy && obj.order === params.order,
-  ).name;
+  const selectedSortType = sortTypes?.find(
+    (obj:SortItem) => obj.sortBy === params.sortBy && obj.order === params.order,
+  )?.name;
   const sortTypesList = sortTypes.map((type, index) => {
     return (
       <li
@@ -58,7 +64,7 @@ export default function Sort({ params }) {
     );
   });
 
-  const handleClickSortTypes = (index, sortBy, order) => {
+  const handleClickSortTypes = (index:number, sortBy:string, order:string) => {
     params.sortBy = sortBy;
     params.order = order;
 
@@ -83,7 +89,7 @@ export default function Sort({ params }) {
         </svg>
         <b>Сортировка по:</b>
         <span
-          onClick={(event) => {
+          onClick={() => {
             setIsVisible(!isVisible);
           }}>
           {selectedSortType}

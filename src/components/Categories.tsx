@@ -3,7 +3,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
 
-export default function Categories({ params }) {
+type CategoriesProps ={
+category: number | string;
+sortBy: string;
+order: string;
+search: string;
+page: number;
+}
+const Categories:React.FC<CategoriesProps> = ({ category, sortBy, order, search, page }) => {
+
+const params: CategoriesProps = {
+category, sortBy,
+order,
+search,
+page,
+}
   const dispatch = useDispatch();
 
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -21,7 +35,7 @@ export default function Categories({ params }) {
     );
   });
 
-  const handleClickCategory = (index) => {
+  const handleClickCategory = (index:number) => {
     params.category = index || '';
     params.page = 1;
     setActiveIndex(index);
@@ -32,4 +46,6 @@ export default function Categories({ params }) {
       <ul>{categoriesList}</ul>
     </div>
   );
-}
+};
+
+export default Categories;

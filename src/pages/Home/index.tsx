@@ -17,7 +17,15 @@ import { selectQueryParams } from '../../redux/slices/queryParamsSlice';
 export default function Home() {
   const initialParams = useSelector(selectQueryParams);
 
-  const params = {
+type ParamsItem = {
+category: number | string;
+sortBy:string;
+order:string;
+search:string;
+limit: number;
+page: number;
+}
+  const params:ParamsItem = {
     category: initialParams.category ?? '',
     sortBy: initialParams.sortBy,
     order: initialParams.order,
@@ -40,7 +48,7 @@ export default function Home() {
   });
 
   if (data) {
-    var pizzaBlockList = data?.map((item, index) => {
+    var pizzaBlockList = data?.map((item) => {
       return <PizzaBlock key={uuidv4()} {...item} />;
     });
   }
@@ -65,7 +73,7 @@ export default function Home() {
   return (
     <>
       <div className="content__top">
-        <Categories params={params} />
+        <Categories category={params.category} sortBy={params.sortBy} order={params.order} search={params.search} page={params.page} />
         <Sort params={params} />
       </div>
       <h2 className="content__title">Все пиццы</h2>

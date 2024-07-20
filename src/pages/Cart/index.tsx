@@ -1,3 +1,4 @@
+import CartEmpty from './CartEmpty';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { decrement, increment, remove, clear, selectCart } from '../../redux/slices/cartSlice';
@@ -188,30 +189,7 @@ export default function Cart() {
           )}
         </div>
         {cart.length === 0 ? (
-          <>
-            <h2 className="cart__empty-title">Пусто</h2>
-            <p className="cart__empty-text">Вы еще не добавили в корзину ни одной пиццы</p>
-            <div className="cart__bottom-buttons-empty">
-              <Link to="/" className="button button--outline button--add go-back-btn">
-                <svg
-                  width="8"
-                  height="14"
-                  viewBox="0 0 8 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M7 13L1 6.93015L6.86175 1"
-                    stroke="#D3D3D3"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-
-                <span>Вернуться назад</span>
-              </Link>
-            </div>
-          </>
+          <CartEmpty />
         ) : (
           <>
             <div className="content__items">{pizzasList}</div>

@@ -6,17 +6,18 @@ import { selectCart } from '../redux/slices/cartSlice';
 import { setParams } from '../redux/slices/queryParamsSlice';
 import { setSearchValue } from '../redux/slices/searchValueSlice';
 
-export default function Header() {
+
+export default function Header(){
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   const pizzasInCart = useSelector(selectCart);
 
-  const totalPrice = pizzasInCart.reduce((sum, item) => {
+  const totalPrice = pizzasInCart.reduce((sum:number, item:any) => {
     return sum + item.price * item.count;
   }, 0);
 
-  const totalCount = pizzasInCart.reduce((sumCount, item) => {
+  const totalCount = pizzasInCart.reduce((sumCount:number, item:any) => {
     return sumCount + item.count;
   }, 0);
 
