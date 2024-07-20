@@ -6,27 +6,27 @@ import { decrement, increment, remove, clear, selectCart } from '../../redux/sli
 export default function Cart() {
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
-  const totalPrice = cart.reduce((sum, item) => {
+  const totalPrice = cart.reduce((sum:number, item:any) => {
     return sum + item.price * item.count;
   }, 0);
 
-  const totalCount = cart.reduce((sumCount, item) => {
+  const totalCount = cart.reduce((sumCount:number, item:any) => {
     return sumCount + item.count;
   }, 0);
 
-  const handlePlus = (index) => {
+  const handlePlus = (index:number) => {
     dispatch(increment(index));
   };
-  const handleMinus = (index) => {
+  const handleMinus = (index:number) => {
     dispatch(decrement(index));
   };
-  const handleRemove = (index) => {
+  const handleRemove = (index:number) => {
     dispatch(remove(index));
   };
   const handleClear = () => {
-    dispatch(clear());
+    dispatch(clear(null));
   };
-  const pizzasList = cart.map((item, index) => {
+  const pizzasList = cart.map((item:any, index:number) => {
     return (
       <div className="cart__item">
         <div className="cart__item-img">
