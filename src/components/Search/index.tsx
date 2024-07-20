@@ -10,7 +10,7 @@ export default function Search() {
   const value = useSelector(selectSearchValue);
   const newParams = { ...params };
   const updateSearchValue = React.useCallback(
-    debounce((text) => {
+    debounce((text:string) => {
       newParams.search = text;
       dispatch(setParams(newParams));
     }, 500),

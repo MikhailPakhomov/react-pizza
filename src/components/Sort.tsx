@@ -4,8 +4,19 @@ import { useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
 import { useClickAway } from '@uidotdev/usehooks';
 
-export default function Sort({ params }) {
+type SortProps = {
+  category: number | string;
+  sortBy:string;
+  order:string;
+  search:string;
+  limit: number;
+  page: number;
+}
+const Sort:React.FC<SortProps> = ({ category, sortBy, order, search, limit, page }) =>{
 
+const params:SortProps = {
+  category, sortBy, order, search, limit, page
+}
   const ref = useClickAway<HTMLDivElement>(() => {
     setIsVisible(false);
   });
@@ -103,3 +114,5 @@ order: string;
     </div>
   );
 }
+
+export default Sort;

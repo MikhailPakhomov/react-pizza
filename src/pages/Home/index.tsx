@@ -74,7 +74,7 @@ page: number;
     <>
       <div className="content__top">
         <Categories category={params.category} sortBy={params.sortBy} order={params.order} search={params.search} page={params.page} />
-        <Sort params={params} />
+        <Sort params {...params} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {isError ? (
