@@ -1,7 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import qs from 'qs';
+import { RootState } from '../store';
+
 
 let initialState = qs.parse(window.location.search.substring(1));
+
+type QueryParams = {
+    category?: string;
+    sortBy?: string;
+    order?: string;
+    search?: string;
+    limit?: string;
+    page?: string;
+}
+
 
 if (Object.keys(initialState).length === 0) {
   initialState = {
@@ -9,8 +21,8 @@ if (Object.keys(initialState).length === 0) {
     sortBy: 'rating',
     order: 'desc',
     search: '',
-    limit: 4,
-    page: 1,
+    limit: "4",
+    page: "1",
   };
 }
 
@@ -18,13 +30,13 @@ export const queryParamsSlice = createSlice({
   name: 'queryParams',
   initialState: initialState,
   reducers: {
-    setParams: (state, action) => {
-      if (action.payload === '') {
+    setParams: (state, action:PayloadAction<QueryParams>) => {
+      if (Object.keys(action.payload).length === 0) {
         state.category = initialState.category;
         state.sortBy = initialState.sortBy;
         state.order = initialState.order;
         state.search = initialState.search;
-        state.page = 1;
+        state.page = '1';
       } else {
         state.category = action.payload.category;
         state.sortBy = action.payload.sortBy;
@@ -36,7 +48,7 @@ export const queryParamsSlice = createSlice({
   },
 });
 
-export const selectQueryParams = (state) => state.queryParams;
+export const selectQueryParams = (state:RootState) => state.queryParams;
 export const { setParams } = queryParamsSlice.actions;
 
 export default queryParamsSlice.reducer;

@@ -21,7 +21,7 @@ export default function Header() {
   }, 0);
 
   const handleClickOnLogo = () => {
-    dispatch(setParams(''));
+    dispatch(setParams({}));
     dispatch(setSearchValue(''));
   };
   return (
