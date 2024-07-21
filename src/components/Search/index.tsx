@@ -5,32 +5,40 @@ import debounce from 'lodash.debounce';
 import { selectQueryParams, setParams } from '../../redux/slices/queryParamsSlice';
 import { selectSearchValue, setSearchValue } from '../../redux/slices/searchValueSlice';
 
-export default function Search() {
-  const params = useSelector(selectQueryParams);
-  const value = useSelector(selectSearchValue);
-  const newParams = { ...params };
+type ParamsItem = {
+  category: number | string;
+  sortBy: string;
+  order: string;
+  search: string;
+  limit: number;
+  page: number;
+};
+const Search: React.FC = () => {
+  const params: ParamsItem = useSelector(selectQueryParams);
+  const value: string = useSelector(selectSearchValue);
+  const newParams: ParamsItem = { ...params };
   const updateSearchValue = React.useCallback(
-    debounce((text:string) => {
+    debounce((text: string) => {
       newParams.search = text;
       dispatch(setParams(newParams));
     }, 500),
     [],
   );
 
-  const onChangeSearchInput = (e) => {
+  const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchValue(e.target.value));
     updateSearchValue(e.target.value);
   };
 
   const dispatch = useDispatch();
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleClickClear = () => {
     dispatch(setSearchValue(''));
     newParams.search = '';
     dispatch(setParams(newParams));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
   return (
     <div className={styles.root}>
@@ -71,4 +79,6 @@ export default function Search() {
       )}
     </div>
   );
-}
+};
+
+export default Search;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router';
 import { getPizzaById } from '../../api/fetch';
 import { useQuery } from '@tanstack/react-query';
@@ -7,12 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const FullPizza = () => {
   const { id } = useParams();
-  console.log(id);
 
-  const { data, isFetching, isError, refetch } = useQuery({
+  const { data, isFetching, isError } = useQuery({
     queryKey: ['pizzaById'],
     queryFn: () => {
-      return getPizzaById(id);
+      if(id){
+        return getPizzaById(id);
+      }
     },
   });
   if (data) {

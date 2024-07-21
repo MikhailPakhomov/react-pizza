@@ -5,18 +5,22 @@ import { setParams } from '../redux/slices/queryParamsSlice';
 import { useClickAway } from '@uidotdev/usehooks';
 
 type SortProps = {
-  category: number | string;
-  sortBy:string;
-  order:string;
-  search:string;
-  limit: number;
-  page: number;
-}
-const Sort:React.FC<SortProps> = ({ category, sortBy, order, search, limit, page }) =>{
-
-const params:SortProps = {
-  category, sortBy, order, search, limit, page
-}
+  category: string;
+  sortBy: string;
+  order: string;
+  search: string;
+  limit?: number;
+  page: string;
+};
+const Sort: React.FC<SortProps> = ({ category, sortBy, order, search, limit, page }) => {
+  const params: SortProps = {
+    category,
+    sortBy,
+    order,
+    search,
+    limit,
+    page,
+  };
   const ref = useClickAway<HTMLDivElement>(() => {
     setIsVisible(false);
   });
@@ -25,13 +29,13 @@ const params:SortProps = {
   const [sortActiveIndex, setSortActiveIndex] = React.useState(0);
   const dispath = useDispatch();
 
-type SortItem = {
- name: string;
-sortBy: string;
-order: string;
-}
+  type SortItem = {
+    name: string;
+    sortBy: string;
+    order: string;
+  };
 
-  const sortTypes:SortItem[]= [
+  const sortTypes: SortItem[] = [
     {
       name: 'популярности',
       sortBy: 'rating',
@@ -60,7 +64,7 @@ order: string;
   ];
 
   const selectedSortType = sortTypes?.find(
-    (obj:SortItem) => obj.sortBy === params.sortBy && obj.order === params.order,
+    (obj: SortItem) => obj.sortBy === params.sortBy && obj.order === params.order,
   )?.name;
   const sortTypesList = sortTypes.map((type, index) => {
     return (
@@ -75,7 +79,7 @@ order: string;
     );
   });
 
-  const handleClickSortTypes = (index:number, sortBy:string, order:string) => {
+  const handleClickSortTypes = (index: number, sortBy: string, order: string) => {
     params.sortBy = sortBy;
     params.order = order;
 
@@ -113,6 +117,6 @@ order: string;
       )}
     </div>
   );
-}
+};
 
 export default Sort;

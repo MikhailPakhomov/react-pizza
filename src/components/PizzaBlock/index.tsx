@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPizza, increment, decrement, selectCart } from '../../redux/slices/cartSlice';
 import { Link } from 'react-router-dom';
 
-type PizzaBlockProps ={
-id:string;
-title:string;
-price: number;
-imageUrl: string;
-sizes:number[];
-types:number[];
-}
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
 
-const PizzaBlock:React.FC<PizzaBlockProps>=({ id, title, price, imageUrl, sizes, types }) =>{
-
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeSize, setActiveSize] = React.useState(0);
   const [activeTypePizza, setActiveTypePizza] = React.useState(0);
   const typePizza = ['тонкое', 'традиционное'];
@@ -23,7 +22,16 @@ const PizzaBlock:React.FC<PizzaBlockProps>=({ id, title, price, imageUrl, sizes,
 
   const dispatch = useDispatch();
 
-  const pizzaItemInCart = {
+  type PizzaInCart = {
+    id: string;
+    imageUrl: string;
+    title: string;
+    price: number;
+    size: number;
+    dough: string;
+    count: number;
+  };
+  const pizzaItemInCart: PizzaInCart = {
     id,
     imageUrl,
     title,
@@ -33,30 +41,29 @@ const PizzaBlock:React.FC<PizzaBlockProps>=({ id, title, price, imageUrl, sizes,
     count: 0,
   };
 
-  const handleClickSize = (index) => {
+  const handleClickSize = (index: number) => {
     setActiveSize(index);
   };
 
-  const handleClickTypePizza = (index) => {
+  const handleClickTypePizza = (index: number) => {
     setActiveTypePizza(index);
   };
 
-  const handleAddToCart = (arr) => {};
-
-  const getQtyAddedPizza = (arr) => {
+  const getQtyAddedPizza = (arr: []) => {
     const result = arr.find(
-      (item) =>
+      (item: any) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],
     );
+
     if (!result) return 0;
     return result.count;
   };
 
   const handlePlus = () => {
     const index = cart.findIndex(
-      (item) =>
+      (item: any) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],
@@ -73,7 +80,7 @@ const PizzaBlock:React.FC<PizzaBlockProps>=({ id, title, price, imageUrl, sizes,
   };
   const handleMinus = () => {
     const index = cart.findIndex(
-      (item) =>
+      (item: any) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],
@@ -181,6 +188,6 @@ const PizzaBlock:React.FC<PizzaBlockProps>=({ id, title, price, imageUrl, sizes,
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

@@ -1,6 +1,6 @@
 import styles from './NotFound.module.css';
 
-export default function NotFound() {
+const NotFound: React.FC = ()=>  {
   return (
     <div className={styles.main}>
       <br></br>
@@ -9,3 +9,5 @@ export default function NotFound() {
     </div>
   );
 }
+
+export default NotFound;

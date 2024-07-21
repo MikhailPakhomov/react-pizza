@@ -14,24 +14,26 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { getPizzas } from '../../api/fetch';
 import { selectQueryParams } from '../../redux/slices/queryParamsSlice';
 
-export default function Home() {
-  const initialParams = useSelector(selectQueryParams);
-
 type ParamsItem = {
-category: number | string;
-sortBy:string;
-order:string;
-search:string;
-limit: number;
-page: number;
-}
-  const params:ParamsItem = {
+  category: string;
+  sortBy: string;
+  order: string;
+  search: string;
+  page: string;
+  limit: number;
+};
+
+const Home:React.FC = () => {
+  const initialParams:ParamsItem = useSelector(selectQueryParams);
+
+
+  const params = {
     category: initialParams.category ?? '',
     sortBy: initialParams.sortBy,
     order: initialParams.order,
     search: initialParams.search,
-    limit: 4,
     page: initialParams.page,
+    limit: initialParams.limit
   };
 
   const [searchParams, setParams] = useSearchParams();
@@ -48,7 +50,7 @@ page: number;
   });
 
   if (data) {
-    var pizzaBlockList = data?.map((item) => {
+    var pizzaBlockList = data?.map((item:ParamsItem) => {
       return <PizzaBlock key={uuidv4()} {...item} />;
     });
   }
@@ -57,7 +59,7 @@ page: number;
     console.log('Ошибка при получении пицц', error);
   }
 
-  const sceletons = [...new Array(4)].map((_, index) => <Skeleton key={uuidv4()} />);
+  const sceletons = [...new Array(4)].map(() => <Skeleton key={uuidv4()} />);
 
   React.useEffect(() => {
     refetch();
@@ -73,8 +75,14 @@ page: number;
   return (
     <>
       <div className="content__top">
-        <Categories category={params.category} sortBy={params.sortBy} order={params.order} search={params.search} page={params.page} />
-        <Sort params {...params} />
+        <Categories
+          category={params.category}
+          sortBy={params.sortBy}
+          order={params.order}
+          search={params.search}
+          page={params.page}
+        />
+        <Sort {...params} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {isError ? (
@@ -86,7 +94,15 @@ page: number;
         <div className="content__items">{isFetching ? sceletons : pizzaBlockList}</div>
       )}
 
-      <Pagination category={params.category} sortBy={params.sortBy} order={params.order} search={params.search} page={params.page} />
+      <Pagination
+        category={params.category}
+        sortBy={params.sortBy}
+        order={params.order}
+        search={params.search}
+        page={params.page}
+      />
     </>
   );
 }
+
+export default Home;
