@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
 
 type CategoriesProps = {
-  category: number | string;
-  sortBy: string;
-  order: string;
-  search: string;
-  page: string;
+  category?:  string;
+  sortBy?: string;
+  order?: string;
+  search?: string;
+  page?: string;
 };
 const Categories: React.FC<CategoriesProps> = ({ category, sortBy, order, search, page }) => {
   const params: CategoriesProps = {
@@ -36,8 +36,8 @@ const Categories: React.FC<CategoriesProps> = ({ category, sortBy, order, search
   });
 
   const handleClickCategory = (index: number) => {
-    params.category = index || '';
-    params.page = 1;
+    params.category = index.toString() || '';
+    params.page = '1';
     setActiveIndex(index);
     dispatch(setParams(params));
   };

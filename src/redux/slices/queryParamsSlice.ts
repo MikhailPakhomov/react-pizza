@@ -3,8 +3,9 @@ import qs from 'qs';
 import { RootState } from '../store';
 
 
-let initialState = qs.parse(window.location.search.substring(1));
 
+let initialState = qs.parse(window.location.search.substring(1)) ;
+console.log(initialState)
 type QueryParams = {
     category?: string;
     sortBy?: string;

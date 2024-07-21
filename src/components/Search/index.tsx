@@ -15,7 +15,7 @@ type ParamsItem = {
 };
 const Search:React.FC = () => {
   const params = useSelector(selectQueryParams);
-  const value:string = useSelector(selectSearchValue);
+  const value = useSelector(selectSearchValue);
   const newParams = { ...params };
   const updateSearchValue = React.useCallback(
     debounce((text:string) => {

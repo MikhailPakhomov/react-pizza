@@ -5,12 +5,12 @@ import { useDispatch } from 'react-redux';
 import { setParams } from '../../redux/slices/queryParamsSlice';
 
 type PaginationProps = {
-  category: string;
-  sortBy: string;
-  order: string;
-  search: string;
-  limit: string;
-  page: string;
+  category?: string;
+  sortBy?: string;
+  order?: string;
+  search?: string;
+  limit?: string;
+  page?: string;
 };
 const Pagination: React.FC<PaginationProps> = ({
   category,
@@ -40,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
       className={styles.root}
       breakLabel="..."
       nextLabel=">"
-      forcePage={+params.page - 1}
+      forcePage={params.page ? +params.page-1 : 1}
       onPageChange={(event) => onChangePage((event.selected + 1).toString())}
       pageRangeDisplayed={5}
       pageCount={3}

@@ -5,12 +5,12 @@ import { setParams } from '../redux/slices/queryParamsSlice';
 import { useClickAway } from '@uidotdev/usehooks';
 
 type SortProps = {
-  category: string;
-  sortBy: string;
-  order: string;
-  search: string;
+  category?: string;
+  sortBy?: string;
+  order?: string;
+  search?: string;
   limit?: string;
-  page: string;
+  page?: string;
 };
 const Sort: React.FC<SortProps> = ({ category, sortBy, order, search, limit, page }) => {
   const params: SortProps = {
