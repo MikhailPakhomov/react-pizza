@@ -9,7 +9,7 @@ type SortProps = {
   sortBy: string;
   order: string;
   search: string;
-  limit?: number;
+  limit?: string;
   page: string;
 };
 const Sort: React.FC<SortProps> = ({ category, sortBy, order, search, limit, page }) => {

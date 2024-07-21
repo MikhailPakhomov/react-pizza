@@ -20,12 +20,11 @@ type ParamsItem = {
   order: string;
   search: string;
   page: string;
-  limit: number;
+  limit: string;
 };
 
-const Home:React.FC = () => {
-  const initialParams:ParamsItem = useSelector(selectQueryParams);
-
+const Home: React.FC = () => {
+  const initialParams: ParamsItem = useSelector(selectQueryParams);
 
   const params = {
     category: initialParams.category ?? '',
@@ -33,7 +32,7 @@ const Home:React.FC = () => {
     order: initialParams.order,
     search: initialParams.search,
     page: initialParams.page,
-    limit: initialParams.limit
+    limit: initialParams.limit,
   };
 
   const [searchParams, setParams] = useSearchParams();
@@ -49,8 +48,17 @@ const Home:React.FC = () => {
     },
   });
 
+  type PizzaBlockProps = {
+    id: string;
+    title: string;
+    price: number;
+    imageUrl: string;
+    sizes: number[];
+    types: number[];
+  };
+
   if (data) {
-    var pizzaBlockList = data?.map((item:ParamsItem) => {
+    var pizzaBlockList = data?.map((item: PizzaBlockProps) => {
       return <PizzaBlock key={uuidv4()} {...item} />;
     });
   }
@@ -100,9 +108,10 @@ const Home:React.FC = () => {
         order={params.order}
         search={params.search}
         page={params.page}
+        limit={params.limit}
       />
     </>
   );
-}
+};
 
 export default Home;

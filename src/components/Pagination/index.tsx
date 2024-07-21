@@ -9,7 +9,7 @@ type PaginationProps = {
   sortBy: string;
   order: string;
   search: string;
-
+  limit: string;
   page: string;
 };
 const Pagination: React.FC<PaginationProps> = ({
@@ -18,6 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({
   order,
   search,
   page,
+  limit,
 }) => {
   const params: PaginationProps = {
     category,
@@ -25,6 +26,7 @@ const Pagination: React.FC<PaginationProps> = ({
     order,
     search,
     page,
+    limit,
   };
 
   const dispath = useDispatch();

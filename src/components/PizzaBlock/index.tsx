@@ -49,21 +49,24 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
     setActiveTypePizza(index);
   };
 
-  const getQtyAddedPizza = (arr: []) => {
+  const getQtyAddedPizza = (arr: PizzaInCart[]) => {
     const result = arr.find(
-      (item: any) =>
+      (item: PizzaInCart) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],
     );
 
-    if (!result) return 0;
-    return result.count;
+    if (!result) {
+      return 0;
+    } else {
+      return result.count;
+    }
   };
 
   const handlePlus = () => {
     const index = cart.findIndex(
-      (item: any) =>
+      (item: PizzaInCart) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],
@@ -80,7 +83,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
   };
   const handleMinus = () => {
     const index = cart.findIndex(
-      (item: any) =>
+      (item: PizzaInCart) =>
         item.title === title &&
         item.size === sizes[activeSize] &&
         item.dough === typePizza[activeTypePizza],

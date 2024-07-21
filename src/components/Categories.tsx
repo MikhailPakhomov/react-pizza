@@ -8,7 +8,7 @@ type CategoriesProps = {
   sortBy: string;
   order: string;
   search: string;
-  page: number;
+  page: string;
 };
 const Categories: React.FC<CategoriesProps> = ({ category, sortBy, order, search, page }) => {
   const params: CategoriesProps = {
