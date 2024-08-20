@@ -5,14 +5,14 @@ import debounce from 'lodash.debounce';
 import { selectQueryParams, setParams } from '../../redux/slices/queryParamsSlice';
 import { selectSearchValue, setSearchValue } from '../../redux/slices/searchValueSlice';
 
-type ParamsItem = {
-  category: number | string;
-  sortBy: string;
-  order: string;
-  search: string;
-  limit: number;
-  page: number;
-};
+// type ParamsItem = {
+//   category: number | string;
+//   sortBy: string;
+//   order: string;
+//   search: string;
+//   limit: number;
+//   page: number;
+// };
 const Search:React.FC = () => {
   const params = useSelector(selectQueryParams);
   const value = useSelector(selectSearchValue);

@@ -7,9 +7,9 @@ import Sort from '../../components/Sort';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from '../../components/Pagination';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Link, useSearchParams } from 'react-router-dom';
+import {  useSearchParams } from 'react-router-dom';
 
 import { getPizzas } from '../../api/fetch';
 import { selectQueryParams } from '../../redux/slices/queryParamsSlice';
@@ -35,9 +35,9 @@ const Home: React.FC = () => {
     limit: initialParams.limit,
   };
 
-  const [searchParams, setParams] = useSearchParams();
+  const [, setParams] = useSearchParams();
 
-  const { data, isFetching, isSuccess, isError, error, refetch } = useQuery({
+  const { data, isFetching, isError, error, refetch } = useQuery({
     queryKey: ['items'],
     queryFn: () => {
       if (!initialParams.search) {

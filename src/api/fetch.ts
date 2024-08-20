@@ -9,17 +9,17 @@ type QueryParams = {
   page?: string;
 }
 
-type Pizzas = {
-  id?: string;
-  category?:number;
-  imageUrl?: string;
-  title?: string;
-  price?: number;
-  size?: number;
-  dough?: string;
-rating?: number
-  count?: number;
-}
+// type Pizzas = {
+//   id?: string;
+//   category?:number;
+//   imageUrl?: string;
+//   title?: string;
+//   price?: number;
+//   size?: number;
+//   dough?: string;
+// rating?: number
+//   count?: number;
+// }
 export const getPizzas = async (params:QueryParams) => {
   const { data } = await axios.get('https://6637b4ab288fedf693811aff.mockapi.io/items', {
     params,

@@ -36,7 +36,7 @@ export const cartSlice = createSlice({
     remove: (state, action:PayloadAction<number>) => {
       state.pizzas.splice(action.payload, 1);
     },
-    clear: (state, action) => {
+    clear: (state) => {
       state.pizzas = [];
     },
   },
