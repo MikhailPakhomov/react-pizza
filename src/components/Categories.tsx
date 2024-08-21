@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
 
 type CategoriesProps = {
-  category?:  string;
+  category?: string;
   sortBy?: string;
   order?: string;
   search?: string;
@@ -36,7 +36,11 @@ const Categories: React.FC<CategoriesProps> = ({ category, sortBy, order, search
   });
 
   const handleClickCategory = (index: number) => {
-    params.category = index.toString() || '';
+    if (index) {
+      params.category = index.toString();
+    } else {
+      params.category = '';
+    }
     params.page = '1';
     setActiveIndex(index);
     dispatch(setParams(params));
