@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type TPaginationSlice ={
- currentPage: string
-}
+
 const initialState = {
   currentPage: "1",
 };
