@@ -24,7 +24,7 @@ export default function Cart() {
     dispatch(remove(index));
   };
   const handleClear = () => {
-    dispatch(clear());
+    dispatch(clear(null));
   };
   const pizzasList = cart.map((item:any, index:number) => {
     return (
