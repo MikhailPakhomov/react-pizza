@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header';
@@ -8,7 +7,6 @@ import Cart from './pages/Cart';
 import FullPizza from './pages/FullPizza';
 import './scss/app.scss';
 
-import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
