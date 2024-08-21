@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logoSvg from './../assets/img/pizza-logo.svg';
 import Search from './Search';
 import { useSelector, useDispatch } from 'react-redux';

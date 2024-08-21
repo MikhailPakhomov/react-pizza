@@ -1,6 +1,6 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 import { setParams } from '../redux/slices/queryParamsSlice';
 
 type CategoriesProps = {
@@ -20,7 +20,7 @@ const Categories: React.FC<CategoriesProps> = ({ category, sortBy, order, search
   };
   const dispatch = useDispatch();
 
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [, setActiveIndex] = React.useState(0);
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
