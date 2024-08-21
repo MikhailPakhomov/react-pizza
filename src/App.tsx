@@ -8,7 +8,6 @@ import Cart from './pages/Cart';
 import FullPizza from './pages/FullPizza';
 import './scss/app.scss';
 
-import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
 
